@@ -1,1 +1,3 @@
-StructureSpawn.prototype.spawnTest = console.log('spawnTest');
+StructureSpawn.prototype.spawnTest = function() {
+  console.log(this.name + ' spawnTest');
+};

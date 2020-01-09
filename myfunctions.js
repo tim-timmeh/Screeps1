@@ -11,16 +11,5 @@ module.exports = {
   }
 
 
-  /*
-  converArrayToObject: function(array, key) {
-    const result = {};
-    for (let i = 0; i < array.length; i++) {
-      result[array[i].key] = array[i];
-    };
-    return result;
-  };
-  */
-
-
 
 };
