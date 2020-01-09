@@ -1,5 +1,7 @@
 "use strict";
 var roleHarvester = require("role.harvester");
+require('globals');
+console.log(global.test1);
 var test = 'testp';
 
 
