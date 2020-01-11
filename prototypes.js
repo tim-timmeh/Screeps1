@@ -1,20 +1,60 @@
 'use strict'
+const myFunc = require('myfunctions');
 // Giving an object not yet created a function to perform. Eg Certain creep/spawn/room to do something.
 
 StructureSpawn.prototype.spawnTest = function() { // Test function
   console.log(this.name + ' spawnTest');
 };
 
-Object.defineProperty(Source.prototype, 'memory', { // Shortcut for source.memory
+
+
+Object.defineProperty(OwnedStructure.prototype, "memory", { // Shortcut for Owned Structures Memory
+  get: function() { // Returns memory, if undefined creates & returns empty obj
+    myFunc.ensureMemTreeObj(() => Memory.rooms[this.room.name].ownedStructures[this.id],`rooms[${this.room.name}].ownedStructures[${this.id}]`);
+    return Memory.rooms[this.room.name].ownedStructures[this.id] = Memory.rooms[this.room.name].ownedStructures[this.id] || {};
+  },
+  set: function(value) { // sets and returns the property
+    return _.set(Memory, `rooms[${this.room.name}].ownedStructures.${this.id}`, value);
+  },
+  configurable: true,
+  enumerable: false
+});
+
+Object.defineProperty(Source.prototype, 'memory', { // Shortcut for source memory
+    configurable: true,
+    get: function() {
+        if(_.isUndefined(Memory.rooms[this.room.name].sourceIds)) {
+            Memory.rooms[this.room.name].sourceIds = {};
+        }
+        if(!_.isObject(Memory.rooms[this.room.name].sourceIds)) {
+            return undefined;
+        }
+        return Memory.rooms[this.room.name].sourceIds[this.id] =
+                Memory.rooms[this.room.name].sourceIds[this.id] || {};
+    },
+    set: function(value) {
+        if(_.isUndefined(Memory.rooms[this.room.name].sourceIds)) {
+            Memory.mySourcesMemory = {};
+        }
+        if(!_.isObject(Memory.rooms[this.room.name].sourceIds)) {
+            throw new Error('Could not set source memory');
+        }
+        Memory.rooms[this.room.name].sourceIds[this.id] = value;
+    }
+});
+
+/*Object.defineProperty(Source.prototype, 'memory', { // Shortcut for source.memory OLD
   get: function(){ // Works as get and set as examples >       // console.log(Game.spawns.Spawn1.room.sources[0].memory.workers) // retrieves property
+    //if (!Memory.rooms[this.room.name].sourceIds[this.id]) Memory.rooms[this.room.name].sourceIds[this.id] = {}; // untested, create obj if undefined
     return Memory.rooms[this.room.name].sourceIds[this.id]     // Game.spawns.Spawn1.room.sources[0].memory.testo = 'test'; // sets object/prop
   },
-  set: function(newKey,newValue){ // Doesnt work? set as in example above
+  set: function(newKey,newValue){ // Doesnt work. only 1 arg. set as in example above
     Memory.rooms[this.room.name].sourceIds[this.id][newKey] = newValue;
   },
   enumerable: false,
   configurable: true
 });
+*/
 
 Object.defineProperty(Room.prototype, 'sources', { // Get stored room sources, Set if none stored
   get: function() {

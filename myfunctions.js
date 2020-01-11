@@ -13,14 +13,23 @@ module.exports = {
   },
 
   isEmpty: function(obj) { // Is object empty?
-    for (var key in obj) {
+    for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         return false;
       }
     }
     return true;
-  }
+  },
 
+  ensureMemTreeObj: function(fn,defaultVal) {
+      try {
+        return fn(); // will exit if parent exists
+      } catch (e) { // will create tree if parent does not exist
+        if(global.debug)console.log(`  #Setting Memory Tree: Memory.${defaultVal}`);
+        _.set(Memory, defaultVal,{});
+        return  _.get(Memory,defaultVal)
+      }
+  }
 
   //----- Using room.prototype.sources instead.
   // addRoomSources: function (visableRoom){
