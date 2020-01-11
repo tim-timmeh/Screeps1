@@ -45,11 +45,11 @@ function setupProfiler() {
       if (Profiler.isProfiling()) {
         const filter = Memory.profiler.filter;
         let duration = false;
-        if (!!Memory.profiler.disableTick) {
+        if (Memory.profiler.disableTick) {
           // Calculate the original duration, profile is enabled on the tick after the first call,
           // so add 1.
           duration = Memory.profiler.disableTick - Memory.profiler.enabledTick + 1;
-        }
+        } // (!!Memory.profiler.disableTick)
         const type = Memory.profiler.type;
         setupMemory(type, duration, filter);
       }
@@ -83,7 +83,7 @@ function overloadCPUCalc() {
   if (Game.rooms.sim) {
     usedOnStart = 0; // This needs to be reset, but only in the sim.
     Game.cpu.getUsed = function getUsed() {
-      return performance.now() - usedOnStart;
+      return performance.now() - usedOnStart; // not sure why performance not defined?
     };
   }
 }

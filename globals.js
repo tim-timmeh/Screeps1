@@ -1,9 +1,7 @@
-'use strict'
+'use strict';
 // Globals not related to specific objects
 
-global.test1 = 'this is global.test1' // Test global that works
-
-global.debug = true //#debug to console
+global.test1 = 'this is global.test1'; // Test global that works
 
 global.memorySize = RawMemory.get().length; // size of memory in bytes
 
@@ -19,17 +17,13 @@ global.gcOwnedStructures = function() {
   for (let room in Memory.rooms) {
     for (let ownedStructure in Memory.rooms[room].ownedStructures) {
       if (!Game.structures[ownedStructure]) {
-        if (global.debug) console.log("  #Garbage collecting from " +
-        room +
-        " structure " +
-        ownedStructure +
-        " as? " + // ', '
-        JSON.stringify(Memory.rooms[room].ownedStructures[ownedStructure])
-      );
-      delete Memory.rooms[room].ownedStructures[ownedStructure];
+        if (global.debug) {
+          console.log(`  #Garbage collecting from ${room} structure ${ownedStructure} as? ${JSON.stringify(Memory.rooms[room].ownedStructures[ownedStructure])}`);
+        }
+        delete Memory.rooms[room].ownedStructures[ownedStructure];
+      }
     }
   }
-}
 }
 
 global.hasRespawned = function hasRespawned(){ // check to see if you have just respawned. Needs fix.
@@ -73,3 +67,18 @@ global.respawn = function() { // resets flags and memory
   for (let member in Memory) delete Memory[member];
   RawMemory.set("");
 };
+
+global.profilerGlobalReset = {
+  set : function() {
+    if(global.debug){if(global.profilerGlobalResetSetTicks === undefined)global.profilerGlobalResetSetTicks = 10;
+      global.profilerGlobalResetSetTicks ? console.log(`#Activating profiler for ${global.profilerGlobalResetSetTicks} ticks`):'';  // Set profiler to be run
+    }
+  },
+
+  run : function() {
+    if(global.debug && global.profilerGlobalResetSetTicks) { // Run profiler
+      Game.profiler.profile(global.profilerGlobalResetSetTicks);
+      global.profilerGlobalResetSetTicks = 0;
+    }
+  }
+}
