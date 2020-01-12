@@ -28,34 +28,28 @@ global.gcOwnedStructures = function() {
 
 global.hasRespawned = function hasRespawned(){ // check to see if you have just respawned. Needs fix.
   if(Memory.respawnTick && Memory.respawnTick === Game.time) { // check for multiple calls on same tick
-    if (global.debug) console.log('1');
     return true;
   }
   if(Game.time === 0) {  // server reset or sim
     Memory.respawnTick = Game.time;
-    if (global.debug) console.log('2');
     return true;
   }
   for(const creepName in Game.creeps) {  // check for 0 creeps
-    if (global.debug) console.log('3');
     return false;
   }
   const rNames = Object.keys(Game.rooms);
   if(rNames.length !== 1) {  // check for only 1 room
-    if (global.debug) console.log('4');
     return false;
   }
   const room = Game.rooms[rNames[0]];
   if(!room.controller || !room.controller.my || room.controller.level !== 1 || room.controller.progress || !room.controller.safeMode || room.controller.safeMode <= SAFE_MODE_DURATION-1) {// check for controller, progress and safe mode
-    if (global.debug) console.log('this is always false for some reason. need to fix');
+    //if (global.debug) console.log('this is always false for some reason. need to fix');
     return false;
   }
   if(Object.keys(Game.spawns).length !== 1) {// check for 1 spawn
-    if (global.debug) console.log('6');
     return false;
   }
   Memory.respawnTick = Game.time;  // if all cases point to a respawn, you've respawned
-  if (global.debug) console.log('7');
   return true;
 }
 

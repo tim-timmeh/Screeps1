@@ -6,6 +6,7 @@ const myFunc = require('myfunctions'); // Adds all functions to myFunc variable
 const profiler = require('screeps-profiler');
 profiler.enable();
 
+
 /*//require('memory'); //build memory?
 //const _ = require('lodash'); // loads lodash? or already loaded.
 
@@ -13,9 +14,10 @@ profiler.enable();
 //--let roleHarvester = require("role.harvester"); -- require to variable? (Can only modify objects/prototypes not set variables from require only.)
 */
 
-/*if (global.hasRespawned()) { // check for respawn. needs fix.
+if (global.hasRespawned()) { // check for respawn. needs fix.
+  console.log('******* RESPAWN DETECTED ********')
   global.respawn(); // reset flags and meory
-}*/
+}
 
 if(global.debug)console.log(`#Global has been reset!\n#Overhead reset CPU: ${Game.cpu.getUsed().toFixed(2)} (${(Game.cpu.getUsed()/Game.cpu.limit*100).toFixed(2) || '(sim)'}%), Memory: ${global.memorySize/1000} KB(${(global.memorySize/2048000*100).toFixed(2)}%)`);
 
@@ -38,5 +40,6 @@ module.exports.loop = function () { // Main Loop
     }
 
 
-  })
+  });
+  myFunc.exportStats()
 }

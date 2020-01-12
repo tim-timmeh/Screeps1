@@ -10,7 +10,46 @@
 -ctrl+tab auto indent //custom('atom-text-editor': 'ctrl-tab': 'editor:auto-indent')
 }
 //---------- Ideas
-{Spawn Queue
+{Framework // BonzAI - Developed version, automatic, confusing.
+  // Init() detects Nothing/GReset and initiates Ompire/OperationFactory & sets Empire.Update(True), First loop Init() closes early, Update() check Operations (flag count) if 0 OperationFactory(Bootstrap) = Empire.addOperation(layout, swarm, intel). otherwise process operations loop, then recusive loop incase for multiple nested operations
+  Init() // (In global and loop) init phase - initialize core and instantiate operations
+    -Init() // Init() If (!Reset/Empty){end} else operationsFactory.init() etc.
+    -Update() // Update phase - update operations with game state
+    -RoleCall() // RoleCall phase - Find creeps belonging to missions and spawn any additional needed
+    -Actions() // Actions phase - Actions that change the game state are executed in this phase
+    -Finalize() // Finalize phase - Code that needs to run post-actions phase
+    -PostOperations() // Post-operation actions and utilities & 100 tick garbage collect etc
+}
+
+{// {Framework // BonzAI - OLD release version, manual only.
+//     // loop helper creates empire, init()s empire, inits map, that finds and inits spawngroups for rooms, feedbacks all spawn current info,
+//     LoopHelper.initMemory() //Global, Sets memory up to build
+//     LoopHelper.initEmpire() // Game state information built/loaded (Map, Rooms, Spawns)
+//     Operations = LoopHelper.getOperations(Empire) // Empires Operations (Empire.addOperation places flags or manual)
+//     For Each Operation in Operations
+//       -Init() // Initialize Operations (Which may initialize Missions) & Missions etc
+//       -RoleCall() // Get required partys else add to spawn que
+//       -Actions() // Get partys to perform task step
+//       -InvalidateCache() // 100 tick, Clear mission cache Eg Boost Creep? / Garbage collect?
+//       -Finalize() // Eg Has spawned set true, if room in safemode remove attack flag, Bodyguard TTL
+//   {Framework Flow // Bonzai style step through idea
+//     Empire // Game State Info
+//     LoopHelper // Links Game State and Operations?
+//     Operations // Todo Top level - Operations contains Missions
+//     Missions // Tasks Todo an Operation - Majority of Game Logic
+//     Assignment // Assigning Game Logic to Game Entities
+//     Action // Perform Game Logic
+//     Post-Action Code // Code Failure/Error Handling?
+//   }
+// }
+}
+
+{Task Queue // Build and utilise queue system
+  -Code To Perform
+  -Priority
+  -End Early If No Cpu
+
+Spawn Queue
   -Spawn Priority
   -Keeping Ratio
 
@@ -19,7 +58,6 @@ Job Queue
   -Fill Queue
 
 Combat Queue
-
 }
 //--------- Code Snippets
 {Prototype example from screeps
@@ -59,7 +97,6 @@ Object.defineProperty(Room.prototype, 'sources', {
 let visableRooms = myFunc.convertArrayToObject(Object.values(Game.rooms),'name');
 for (let visableRoom in visableRooms){
   //Memory.rooms[visableRoom] = Memory.rooms[visableRoom] || {};
-
   }
 Memory.rooms.unOwnedRooms = myFunc.convertArrayToObject(Object.values(Game.rooms).filter(room => !room.controller.my),'name'); //List of Uncontrolled Rooms Object by Name
 Memory.rooms.ownedRooms = myFunc.convertArrayToObject(Object.values(Game.rooms).filter(room => room.controller.my),'name'); //List of Controlled Rooms Object by Name
