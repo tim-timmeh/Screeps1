@@ -21,6 +21,14 @@
     -PostOperations() // Post-operation actions and utilities & 100 tick garbage collect etc
 }
 
+Every mission shoulda have Init, Rolecall, Actions, Finalize?
+  Eg,
+  Init = Distance to spawn, Does it have storage, Can place storage?
+  Rolecall = Spawn miner, Spawn Hauler/s?
+  Action = For each creep in mission do Mission Function OBJ ie Miner mines, hauler hauls.
+    Include mission functions here
+  Finalize invalidate mission cache?
+
 {// {Framework // BonzAI - OLD release version, manual only.
 //     // loop helper creates empire, init()s empire, inits map, that finds and inits spawngroups for rooms, feedbacks all spawn current info,
 //     LoopHelper.initMemory() //Global, Sets memory up to build
@@ -59,6 +67,14 @@ Job Queue
 
 Combat Queue
 }
+
+//Change atoms git username / email
+C:\Users\username\AppData\Local\atom\app-1.33.1\resources\app.asar.unpacked\node_modules\dugite\git\mingw64\etc
+[user]
+    name = "username"
+    email = "email"
+
+
 //--------- Code Snippets
 {Prototype example from screeps
 https://docs.screeps.com/contributed/modifying-prototypes.html

@@ -2,7 +2,9 @@
 require('config'); // Custom config here
 require('globals'); // Stored global.xxx variables
 require('prototypes'); // Modified prototypes here
-const myFunc = require('myfunctions'); // Adds all functions to myFunc variable
+const operation = require('operation'); // Operation globals?
+const mission = require('mission'); // Mission globals?
+const myFunc = require('myfunctions'); // Adds random global functions to myFunc variable
 const profiler = require('screeps-profiler');
 profiler.enable();
 
@@ -30,8 +32,8 @@ module.exports.loop = function () { // Main Loop
 
     global.profilerGlobalReset.run()
 
-    if ((Game.time % 100) === 0) {
-      for (let name in Memory.creeps) { // Clear memory of old creeps.
+    if ((Game.time % 100) === 0) { // Clear memory of old creeps.
+      for (let name in Memory.creeps) {
         if (!Game.creeps[name]) {
           if(global.debug)console.log("  #Clearing non-existing creep memory: ", name);
           delete Memory.creeps[name];
@@ -39,7 +41,17 @@ module.exports.loop = function () { // Main Loop
       }
     }
 
+    //Init - Information is gathered about the game state and game objects instantiated
+    let operations = operation.getOperations();
+    for (let operation of operations) operation.init();
+    //RoleCall - Find creeps belonging to missions and spawn any additional needed.
 
+    //Actions - Actions that change the game state are executed in this phase.
+
+    //Finalize - Code that needs to run post-actions phase
+
+    //Post Operation Actions And Utilities
+    myFunc.exportStats()
   });
-  myFunc.exportStats()
+
 }
