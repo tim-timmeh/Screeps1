@@ -1,4 +1,11 @@
 'use strict'
+
+spawngroup()
+Operation contains all shared operational stuff?
+OperationBase contains all unique operational stuff?
+Mission contains all shared mission stuff? Ie build person
+MissionBase contains all unique operational stuff? Ie build indian
+
 //-----------Hotkeys / Ideas / Code Snippets
 {Hotkeys
 -ctrl+click enter txt different places
